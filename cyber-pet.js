@@ -1,20 +1,18 @@
 class Animal {
   constructor(name, age) {
-    this.name = name,
-      this.age = age,
-      this.hunger = 50,
-      this.thirst = 50,
-      this.sleep = 50,
-      this.happy = 50
+    (this.name = name),
+      (this.age = age),
+      (this.hunger = 50),
+      (this.thirst = 50),
+      (this.sleep = 50),
+      (this.happy = 50);
   }
 
   get status() {
-    console.log(`Happiness: ${this.happy}; Hunger: ${this.hunger}; Thirst: ${this.thirst}; Tiredness: ${this.sleep}`);
+    console.log(
+      `Happiness: ${this.happy}; Hunger: ${this.hunger}; Thirst: ${this.thirst}; Tiredness: ${this.sleep}`
+    );
   }
-
-  // get age() {
-  //   return `Your pet is ${this.age} years old.`
-  // }
 
   play() {
     if (this.happy < 100) {
@@ -46,7 +44,7 @@ class Animal {
     if (this.sleep > 0) {
       this.sleep -= 50;
     }
-    this.hungry -= 20;
+    this.hunger -= 20;
     this.thirst -= 20;
     this.happy += 15;
   }
@@ -55,23 +53,61 @@ class Animal {
 class Dog extends Animal {
   constructor(name, age) {
     super(name, age);
+    this.bark = 0;
   }
 }
 
 class Cat extends Animal {
   constructor(name, age) {
     super(name, age);
+    this.meow = 0;
   }
 }
 
 class Rabbit extends Animal {
   constructor(name, age) {
     super(name, age);
+    this.scrunchNose = 0; 
   }
 }
 
 let spot = new Dog("Spot", 3);
-// console.log(spot);
-console.log(spot.status);
-spot.play();
-console.log(spot.status);
+
+const inquirer = require("inquirer");
+const { petQ } = require("./petQ");
+
+const Animal = () => {
+  inquirer.prompt(petQ).then((answers) => {
+    Animal = new Animal(answers.petTypeList, answers.petName)
+    if (answers.petTypeList === "Dog"){
+      console.log ("A Dog")
+    }
+    if (answers.petName === "Spot"){
+      console.log ("Hello Spot!")
+    }
+  })
+}
+
+
+
+ let possibleOptions = ["hunger", "thirst", "sleep", "happy"];
+
+const gameLoop = () => {
+   if (possibleOptions == "hunger") {
+     Animal.hunger += 5;
+   } else if (possibleOptions == "thirst") {
+     Animal.thirst += 5;
+   } else if (possibleOptions == "sleep") {
+     Animal.sleep += 5;
+   } else if (possibleOptions == "happy") {
+     Animal.happy -= 5;
+   }
+   gameLoop();
+ };
+
+ const startGame = () => {
+   gameLoop();
+ };
+
+// startGame();
+
